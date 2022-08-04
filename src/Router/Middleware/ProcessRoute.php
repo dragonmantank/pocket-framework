@@ -7,6 +7,7 @@ namespace PocketFramework\Framework\Router\Middleware;
 use FastRoute\Dispatcher;
 use Laminas\Diactoros\Response\EmptyResponse;
 use Laminas\Diactoros\Response\TextResponse;
+use PocketFramework\Framework\Router\RouteInfo;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
