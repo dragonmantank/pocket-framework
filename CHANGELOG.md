@@ -1,5 +1,15 @@
 # Change Log
 
+## [0.1.2] - 2022-08-05
+### Added
+- N/A
+
+### Changed
+- N/A
+
+### Fixed
+- Method preMiddleware now fires properly
+
 ## [0.1.1] - 2022-08-03
 ### Added
 - N/A

@@ -7,6 +7,7 @@ namespace PocketFramework\Framework\Router\Middleware;
 use FastRoute\Dispatcher;
 use Laminas\Diactoros\Response\EmptyResponse;
 use Laminas\Diactoros\Response\TextResponse;
+use PocketFramework\Framework\Router\Middleware\ProcessMethod;
 use PocketFramework\Framework\Router\RouteInfo;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -66,7 +67,22 @@ class ProcessRoute implements RequestHandlerInterface
                         if (!$method) {
                             $response = $controller($request, ...$vars);
                         } else {
-                            $response = call_user_func([$controller, $method], $request, ...$vars);
+                            $refMethod = $refClass->getMethod($method);
+                            $attributes = $refMethod->getAttributes(RouteInfo::class);
+                            if ($attributes) {
+                                $instance = $attributes[0]->newInstance();
+                                if ($instance->preMiddleware) {
+                                    $stack = new StackHandler(new ProcessMethod($controller, $method, $vars));
+                                    foreach ($instance->preMiddleware as $middleware) {
+                                        $stack->add($this->container->get($middleware));
+                                    }
+                                    $response = $stack->handle($request);
+                                } else {
+                                    $response = call_user_func([$controller, $method], $request, ...$vars);
+                                }
+                            } else {
+                                $response = call_user_func([$controller, $method], $request, ...$vars);
+                            }
                         }
                     }
                 }
