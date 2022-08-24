@@ -5,16 +5,17 @@ declare(strict_types=1);
 namespace PocketFramework\Framework;
 
 use FastRoute\Dispatcher;
+use Psr\Container\ContainerInterface;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Server\MiddlewareInterface;
 use Laminas\Diactoros\ServerRequestFactory;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 use Laminas\HttpHandlerRunner\Emitter\SapiEmitter;
 use PocketFramework\Framework\Router\Middleware\ProcessRoute;
-use PocketFramework\Framework\Router\Middleware\Router;
 use PocketFramework\Framework\Router\Middleware\StackHandler;
-use Psr\Container\ContainerInterface;
-use Psr\Http\Message\ServerRequestInterface;
-use Psr\Http\Server\MiddlewareInterface;
 
-class Application
+class Application implements RequestHandlerInterface
 {
     protected ServerRequestInterface $request;
     protected StackHandler $stackHandler;
@@ -34,9 +35,12 @@ class Application
 
     public function run()
     {
-        $handler = new Router($this->dispatcher, $this->container, $this->stackHandler);
-        $response = $handler->handle($this->request,);
-
+        $response = $this->handle($this->request);
         (new SapiEmitter())->emit($response);
+    }
+
+    public function handle(ServerRequestInterface $request): ResponseInterface
+    {
+        return $this->handler->handle($this->request);
     }
 }
