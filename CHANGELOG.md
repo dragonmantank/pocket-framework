@@ -1,5 +1,16 @@
 # Change Log
 
+## [0.2.0] - 2022-08-23
+
+### Added
+- `PocketFramework\Framework\Application` now directly implements `Psr\Http\Server\RequestHandlerInterface` allow it to just process a request and return a response
+
+### Changed
+- N/A
+
+### Fixed
+-N/A
+
 ## [0.1.2] - 2022-08-05
 ### Added
 - N/A
