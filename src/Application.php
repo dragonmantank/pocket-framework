@@ -41,6 +41,6 @@ class Application implements RequestHandlerInterface
 
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
-        return $this->handler->handle($this->request);
+        return $this->stackHandler->handle($this->request);
     }
 }

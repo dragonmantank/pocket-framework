@@ -1,5 +1,15 @@
 # Change Log
 
+## [0.3.0] - 2022-11-20
+### Added
+- N/A
+
+### Changed
+- preMiddleware can now be passed as a string or an instantiated object
+
+### Fixed
+- N/A
+
 ## [0.2.0] - 2022-08-23
 
 ### Added
@@ -9,7 +19,7 @@
 - N/A
 
 ### Fixed
--N/A
+- N/A
 
 ## [0.1.2] - 2022-08-05
 ### Added

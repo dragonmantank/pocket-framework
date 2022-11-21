@@ -53,7 +53,10 @@ class ProcessRoute implements RequestHandlerInterface
                         if ($instance->preMiddleware) {
                             $stack = new StackHandler(new ProcessController($controller, $vars));
                             foreach ($instance->preMiddleware as $middleware) {
-                                $stack->add($this->container->get($middleware));
+                                if (is_string($middleware)) {
+                                    $middleware = $this->container->get($middleware);
+                                }
+                                $stack->add($middleware);
                             }
                             $response = $stack->handle($request);
                         } else {
@@ -74,7 +77,10 @@ class ProcessRoute implements RequestHandlerInterface
                                 if ($instance->preMiddleware) {
                                     $stack = new StackHandler(new ProcessMethod($controller, $method, $vars));
                                     foreach ($instance->preMiddleware as $middleware) {
-                                        $stack->add($this->container->get($middleware));
+                                        if (is_string($middleware)) {
+                                            $middleware = $this->container->get($middleware);
+                                        }
+                                        $stack->add($middleware);
                                     }
                                     $response = $stack->handle($request);
                                 } else {
